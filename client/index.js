@@ -5,7 +5,7 @@ if (!navigator.geolocation) {
     const state = {
         lat: null,
         long: null,
-        downlink: null
+        downlink: navigator.connection.downlink
     };
 
     navigator.connection.onchange = e => {
@@ -29,13 +29,13 @@ if (!navigator.geolocation) {
 }
 
 function render(err, state) {
-    const { lat, long, downlink } = state ? state : {}
-    $(table).append(entry(err, lat, long, downlink))
-    $(document).scrollTop($(document).height())
+    const { lat, long, downlink } = state ? state : {};
+    $(table).append(entry(err, lat, long, downlink));
+    $(document).scrollTop($(document).height());
 }
 
 function entry(err, lat, lng, downlink) {
-    let entry
+    let entry;
     if (err) {
         entry = $(`
             <tr>
@@ -43,7 +43,7 @@ function entry(err, lat, lng, downlink) {
             </tr>
         `)
         .addClass('error-entry')
-        .data('error-type', err.code)
+        .data('error-type', err.code);
     } else {
         entry = $(`
             <tr>
@@ -51,7 +51,7 @@ function entry(err, lat, lng, downlink) {
                 <td>${lng}</td>
                 <td>${downlink}</td>
             </tr>
-        `)
+        `);
     }
-    return entry
+    return entry;
 }
